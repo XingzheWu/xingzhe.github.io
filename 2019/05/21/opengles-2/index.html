@@ -6,18 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://xingzhe0315.github.io">
-  <title>Archives: 2019/5 | Hexo</title>
+  <title>Android OpenGL ES2.0入门（二）：着色器(Shader) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录成长路上的点点滴滴">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://xingzhe0315.github.io/archives/2019/05/index.html">
+  <meta name="description" content="我们接着上一篇来继续往下学习，上一篇知识了解了GLSurfaceView的基本用法，这一篇来画具体的图形，今天我们的目标就是画出下面这个图形">
+<meta name="keywords" content="Android,OpenGLES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android OpenGL ES2.0入门（二）：着色器(Shader)">
+<meta property="og:url" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="记录成长路上的点点滴滴">
+<meta property="og:description" content="我们接着上一篇来继续往下学习，上一篇知识了解了GLSurfaceView的基本用法，这一篇来画具体的图形，今天我们的目标就是画出下面这个图形">
 <meta property="og:locale" content="CH">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image4.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image1.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image2.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image3.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image4.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image5.jpg">
+<meta property="og:updated_time" content="2019-05-22T15:39:43.994Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="记录成长路上的点点滴滴">
+<meta name="twitter:title" content="Android OpenGL ES2.0入门（二）：着色器(Shader)">
+<meta name="twitter:description" content="我们接着上一篇来继续往下学习，上一篇知识了解了GLSurfaceView的基本用法，这一篇来画具体的图形，今天我们的目标就是画出下面这个图形">
+<meta name="twitter:image" content="https://xingzhe0315.github.io/2019/05/21/opengles-2/image4.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -153,36 +162,90 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-opengles-2" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Android OpenGL ES2.0入门（二）：着色器(Shader)
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/opengles-2/" class="archive-article-date">
+
+        
+        <a href="/2019/05/21/opengles-2/" class="archive-article-date">
   	<time datetime="2019-05-21T13:44:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/opengles-2/">Android OpenGL ES2.0入门（二）：着色器(Shader)</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们接着上一篇来继续往下学习，上一篇知识了解了GLSurfaceView的基本用法，这一篇来画具体的图形，今天我们的目标就是画出下面这个图形<br><img src="/2019/05/21/opengles-2/./image4.jpg" width="288" height="512"><br><a id="more"></a></p>
+<h4 id="1、首先我们要先了解OpenGL的坐标系"><a href="#1、首先我们要先了解OpenGL的坐标系" class="headerlink" title="1、首先我们要先了解OpenGL的坐标系"></a>1、首先我们要先了解OpenGL的坐标系</h4><p>　　OpenGL默认的坐标系如下图所示<br>　　<img src="/2019/05/21/opengles-2/./image1.png" width="252" height="260"><br>　　也就是说坐标原点在屏幕中央，视图左上为1，右下为-1，我们定义点的坐标都应该以该坐标系来定位。</p>
+<h4 id="2、创建顶点坐标"><a href="#2、创建顶点坐标" class="headerlink" title="2、创建顶点坐标"></a>2、创建顶点坐标</h4><p>　　OpenGL绘制的基本单位为点、线、和三角形，如果要画其他图形如矩形都要划分成三角形来绘制。<br>　　<img src="/2019/05/21/opengles-2/./image2.png" width="175" height="245"><br>　　如图所示：我们把这些点的坐标存放到一个数组当中</p>
+<pre><code><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> VERTEX_DATA = floatArrayOf(</span><br><span class="line">        <span class="comment">//第一个三角形</span></span><br><span class="line">        -<span class="number">0.5f</span>, -<span class="number">0.5f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, <span class="number">0.5f</span>,</span><br><span class="line">        -<span class="number">0.5f</span>, <span class="number">0.5f</span>,</span><br><span class="line">        <span class="comment">//第二个三角形</span></span><br><span class="line">        -<span class="number">0.5f</span>, -<span class="number">0.5f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, -<span class="number">0.5f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, <span class="number">0.5f</span>,</span><br><span class="line">        <span class="comment">//中间那条线</span></span><br><span class="line">        -<span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">        <span class="comment">//两个点</span></span><br><span class="line">        <span class="number">0f</span>,-<span class="number">0.4f</span>,</span><br><span class="line">        <span class="number">0f</span>,<span class="number">0.4f</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+</code></pre><p>　　把这些点按顺序将其x,y坐标放入这个数组，注意三角形顶点的定义是按逆时针顺序定义的。</p>
+<h4 id="3、把数据写入本地内存"><a href="#3、把数据写入本地内存" class="headerlink" title="3、把数据写入本地内存"></a>3、把数据写入本地内存</h4><p>　　上一步中我们定义了顶点的数组，但是这个定义是在Java层面，也就是说这个数组存在于Java堆内存，而OpenGL是通过jni调用运行在native层，那么我们就需要把这个数组写入native内存，这里我们通过Java提供的FloatBuffer将我们的float数组写入本地内存.</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> POSITION_COMPONENT_COUNT = <span class="number">2</span><span class="comment">//位置分量的数量，这里我们就定义的x,y两个分量，所以为2</span></span><br><span class="line"><span class="keyword">val</span> BYTE_PER_FLOAT = <span class="number">4</span><span class="comment">//float所占字节数</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> vertexData:FloatBuffer</span><br><span class="line"></span><br><span class="line"><span class="keyword">init</span> &#123;</span><br><span class="line">    vertexData = ByteBuffer.allocateDirect(VERTEX_DATA.size * BYTE_PER_FLOAT)<span class="comment">//在本地内存分配一块空间，大小为数组的大小乘以每个元素所占字节数</span></span><br><span class="line">        .order(ByteOrder.nativeOrder())<span class="comment">//字节序按本地字节序组织内容</span></span><br><span class="line">        .asFloatBuffer()</span><br><span class="line">    vertexData.put(VERTEX_DATA)<span class="comment">//将数组复制到本地内存</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　代码都有注释，应该不难理解</p>
+<h4 id="4、编写着色器代码"><a href="#4、编写着色器代码" class="headerlink" title="4、编写着色器代码"></a>4、编写着色器代码</h4><p>　　上一步我们已经把数据存入本地内存，在把图形画到屏幕上之前，它需要在OpenGL的管道（pipeline）中传递，这就需要用到被称为着色器（shader）子例程。这些着色器会告诉图形处理单元（GPU）如何绘制这些数据，有两种类型的着色器，在绘制任何内容到屏幕之前都需要定义他们<br>a、顶点着色器(vertex shader)生成每个顶点的最终位置，针对每个顶点，它都会执行一次；一旦最终位置确定了。OpenGL就可以把这些可见的顶点的集合组装成点，线以及三角形。<br>b、片段着色器(fragment shader)为组成点、直线、三角形的每个片段生成最终的颜色，针对每个片段，它都会执行一次，一个片段是一个小的，单一颜色的长方形区域，类似于计算机屏幕上的一个像素<br>　　首先我们创建顶点着色器<br>　　在res/raw下创建一个simple_vertex_shader.glsl文件，内容如下：</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">attribute</span> <span class="type">vec4</span> a_Position;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main()&#123;</span><br><span class="line">    <span class="built_in">gl_Position</span> =  a_Position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　这些着色器使用glsl定义，它是opengl的着色语言，对于我们定义过的每一个顶点，着色器都会调用一次；当它被调用的时候，它会在a_Position属性里接受当前顶点的位置，这个属性被定义成vec4类型,一个vec4是一个包含四个分量的向量；在位置的上下文中可以认为是x,y,z,w这四个分量，xyz对应一个三维位置，w是一个特殊的坐标，后面会提到，默认情况下w为0，nain函数将我们接收到的a_Position赋值给gl_Position；这个着色器一定要给gl_Position指定值；OpenGL会把gl_Position中存储的值作为当前顶点的最终位置，并把这些顶点组成点，直线，三角形。</p>
+<p>　　然后创建片段着色器<br>　　在res/raw下创建一个simple_fragment_shader.glsl文件，内容如下：</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">precision</span> <span class="keyword">mediump</span> <span class="type">float</span>;<span class="comment">//定义了浮点型的精度</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">vec4</span> u_Color;<span class="comment">//定义一个属性来接受传过来的颜色值</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main()&#123;</span><br><span class="line">    <span class="built_in">gl_FragColor</span> = u_Color;<span class="comment">//将接收到的颜色值赋值给gl_FragColor,gl_FragColor会作为该片段的最终颜色供OpenGL使用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5、创建着色器"><a href="#5、创建着色器" class="headerlink" title="5、创建着色器"></a>5、创建着色器</h4><p>　　有了上一步定义个两个着色器文件，这一步开始创建着色器。首先我们需要一个方法来把前面定义在raw中的文件读出来：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestSourceReader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">readerTextFromResource</span><span class="params">(context: <span class="type">Context</span>,resId:<span class="type">Int</span>)</span></span>:String&#123;</span><br><span class="line">            <span class="keyword">val</span> content = StringBuilder()</span><br><span class="line">            <span class="keyword">val</span> inputStream = context.resources.openRawResource(resId)</span><br><span class="line">            <span class="keyword">val</span> inputStreamReader = InputStreamReader(inputStream)</span><br><span class="line">            <span class="keyword">val</span> bufferedReader  = BufferedReader(inputStreamReader)</span><br><span class="line">            <span class="keyword">var</span> str:String? = <span class="literal">null</span></span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                str = bufferedReader.readLine()</span><br><span class="line">                <span class="keyword">if</span> (str == <span class="literal">null</span>)</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                content.append(str).append(<span class="string">"\n"</span>)</span><br><span class="line">            &#125;<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">            content.deleteCharAt(content.length - <span class="number">1</span>)</span><br><span class="line">            <span class="keyword">return</span> content.toString()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　这个应该不用过多解释，通过获取到的定义着色器的字符串下面我们就开始真正的创建着色器了</p>
+ <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ShaderHelper</span> </span>&#123;</span><br><span class="line">    <span class="keyword">companion</span> <span class="keyword">object</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">val</span> TAG = <span class="string">"ShaderHelper"</span></span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">compileShader</span><span class="params">(type:<span class="type">Int</span>,code:<span class="type">String</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">            <span class="comment">//创建一个类型为type着色器</span></span><br><span class="line">            <span class="keyword">val</span> shaderId = GLES20.glCreateShader(type)</span><br><span class="line">            <span class="comment">//如果为0，表示创建失败</span></span><br><span class="line">            <span class="keyword">if</span> (shaderId == <span class="number">0</span>)&#123;</span><br><span class="line">                Log.e(TAG,<span class="string">"failed to create shader"</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//将着色器代码创给该着色器</span></span><br><span class="line">            GLES20.glShaderSource(shaderId,code)</span><br><span class="line">            <span class="comment">//编译着色器</span></span><br><span class="line">            GLES20.glCompileShader(shaderId)</span><br><span class="line">            <span class="comment">//打印编译日志</span></span><br><span class="line">            Log.e(TAG,<span class="string">"result of compile shader <span class="variable">$shaderId</span> : \n"</span> + GLES20.glGetShaderInfoLog(shaderId))</span><br><span class="line">            <span class="keyword">val</span> compileStatus = IntArray(<span class="number">1</span>)</span><br><span class="line">            <span class="comment">//将编译的状态写入compileStatus数组</span></span><br><span class="line">            GLES20.glGetShaderiv(shaderId,GLES20.GL_COMPILE_STATUS,compileStatus,<span class="number">0</span>)</span><br><span class="line">            <span class="comment">//若数组元素为0表示编译失败，删除该着色器并返回0</span></span><br><span class="line">            <span class="keyword">if</span> (compileStatus[<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">                GLES20.glDeleteShader(shaderId)</span><br><span class="line">                Log.e(TAG,<span class="string">"failed to compile shader <span class="variable">$shaderId</span>"</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//以上步骤都执行成功，返回该着色器id</span></span><br><span class="line">            <span class="keyword">return</span> shaderId</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">compileVertexShader</span><span class="params">(code:<span class="type">String</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> compileShader(GLES20.GL_VERTEX_SHADER,code)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">fun</span> <span class="title">compileFragmentShader</span><span class="params">(code: <span class="type">String</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> compileShader(GLES20.GL_FRAGMENT_SHADER,code)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　通过前面我们知道，着色器分为顶点着色器跟片段着色器，他们创建的方法是相同的，知识在调用GLES20.glCreateShader(type:Int)是传入的type不同，顶点着色器为GLES20.GL_VERTEX_SHADER，片段着色器为GLES20.GL_FRAGMENT_SHADER。<br>　　现在我们已经有了顶点着色器跟片段着色器，下面我们就需要一个把他们绑定在一起的OpenGL程序，简单来说，一个OpenGL程序就是把一个顶点着色器跟一个片段着色器连接在一起变成单个对象。顶点着色器跟片段着色器总是一起工作的。没有片段着色器，OpenGL就不知道怎么绘制那些组成点、直线、三角形的片段，没有顶点着色器，OpenGL就不知道在哪里绘制这些片段。<br>　　我们在上面的类增加一个方法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">buildProgram</span><span class="params">(vertexShaderId: <span class="type">Int</span>, fragmentShaderId: <span class="type">Int</span>)</span></span>: <span class="built_in">Int</span> &#123;</span><br><span class="line">    <span class="comment">//创建OpenGL程序</span></span><br><span class="line">    <span class="keyword">val</span> programId = GLES20.glCreateProgram()</span><br><span class="line">    <span class="comment">//若为0表示创建失败</span></span><br><span class="line">    <span class="keyword">if</span> (programId == <span class="number">0</span>) &#123;</span><br><span class="line">        Log.e(TAG, <span class="string">"failed to create OpenGL program"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//将顶点着色器绑定到program</span></span><br><span class="line">    GLES20.glAttachShader(programId,vertexShaderId)</span><br><span class="line">    <span class="comment">//将片段着色器绑定到program</span></span><br><span class="line">    GLES20.glAttachShader(programId,fragmentShaderId)</span><br><span class="line">    <span class="comment">//链接程序</span></span><br><span class="line">    GLES20.glLinkProgram(programId)</span><br><span class="line">    <span class="comment">//打印链接日志</span></span><br><span class="line">    Log.e(TAG,<span class="string">"result of link program <span class="variable">$programId</span> :\n"</span>+GLES20.glGetProgramInfoLog(programId))</span><br><span class="line">    <span class="keyword">val</span> linkStatus = IntArray(<span class="number">1</span>)</span><br><span class="line">    <span class="comment">//将链接状态写入数组</span></span><br><span class="line">    GLES20.glGetProgramiv(programId,GLES20.GL_LINK_STATUS,linkStatus,<span class="number">0</span>)</span><br><span class="line">    <span class="comment">//若状态为0，表示链接失败，删除程序，返回0</span></span><br><span class="line">    <span class="keyword">if</span> (linkStatus[<span class="number">0</span>] == <span class="number">0</span>)&#123;</span><br><span class="line">        Log.e(TAG,<span class="string">"failed to link program"</span>)</span><br><span class="line">        GLES20.glDeleteProgram(programId)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//返回程序id</span></span><br><span class="line">    <span class="keyword">return</span> programId</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6、实现渲染器"><a href="#6、实现渲染器" class="headerlink" title="6、实现渲染器"></a>6、实现渲染器</h4><p>　　在MyGLShader的onSurfaceCreated方法中创建OpenGL程序</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//编译顶点着色器返回顶点着色器id</span></span><br><span class="line"><span class="keyword">val</span> vertexShaderId = ShaderHelper.compileVertexShader(TestSourceReader.readerTextFromResource(context,R.raw.simple_vertex_shader))</span><br><span class="line"><span class="comment">//编译片段着色器返回片段着色器id</span></span><br><span class="line"><span class="keyword">val</span> fragmentShaderId = ShaderHelper.compileFragmentShader(TestSourceReader.readerTextFromResource(context,R.raw.simple_fragment_shader))</span><br><span class="line"><span class="comment">//通过顶点着色器跟片段着色器创建OpenGL程序</span></span><br><span class="line">programId = ShaderHelper.buildProgram(vertexShaderId,fragmentShaderId)</span><br></pre></td></tr></table></figure>
+<p>　　当OpenGL把着色器连接成一个程序的时候，它会用一个位置编号将着色器中定义的attribute跟uniform都关联起来，我们通过这个位置编号来给着色器发送数据<br>　　下面我们需要获得顶点着色器中定义的attribute a_Position和片段着色器中定义的uniform u_Color的位置编号：<br>　　定义常量</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> A_POSITION = <span class="string">"a_Position"</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> U_COLOR = <span class="string">"u_Color"</span></span><br></pre></td></tr></table></figure>
+<p>　　跟变量<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> aPositionLocation:<span class="built_in">Int</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> uColorLocation:<span class="built_in">Int</span> = <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>　　接着上面的onSurfaceCreated方法</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aPositionLocation = GLES20.glGetAttribLocation(programId, A_POSITION)</span><br><span class="line">uColorLocation = GLES20.glGetUniformLocation(programId, U_COLOR)</span><br></pre></td></tr></table></figure>
+<p>　　得到两个位置编号，通过这两个位置编号，我们就可以给着色器传递数据</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vertexData.position(<span class="number">0</span>)</span><br><span class="line">GLES20.glVertexAttribPointer(aPositionLocation,POSITION_COMPONENT_COUNT,GLES20.GL_FLOAT,<span class="literal">false</span>,<span class="number">0</span>,vertexData)</span><br><span class="line">GLES20.glEnableVertexAttribArray(aPositionLocation)</span><br><span class="line">GLES20.glUseProgram(programId)</span><br></pre></td></tr></table></figure>
+<p>　　public static void glVertexAttribPointer(int indx,int size,int type,boolean normalized,int stride,java.nio.Buffer ptr)<br>　　上面是方法签名，我们通过GLES20.glVertexAttribPointer将数据传递给aPositionLocation，第一个参数就是属性的位置编号，第二个是表示每个属性的数据的个数，也就是这个属性的分量个数，我们这里只是定义个x,y所以为2，第三个是数据类型，我们这里都是float，所以为GLES20.GL_FLOAT,第三个参数只有使用整型数据的时候才有意义，因此这里可以暂时忽略掉，第四个参数当一个数组存储多于一个属性时才有意义，最后一个就是我们已经保存在本地内存的数据，告诉OpenGL去哪里取数据；<br>　　然后调用一下GLES20.glEnableVertexAttribArray(aPositionLocation)使其生效，最后调用GLES20.glUseProgram(programId)告诉OpenGL使用这个程序来进行后续的绘制，到此，我们onSurfaceCreated的方法结束了。<br>　　下面就开始绘制了，绘制的逻辑主要是在onDrawFrame方法中</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//给uColorLocation设置为白色，这样绘制出来就是白色了</span></span><br><span class="line">GLES20.glUniform4f(uColorLocation,<span class="number">1.0f</span>,<span class="number">1f</span>,<span class="number">1f</span>,<span class="number">1f</span>)</span><br><span class="line"><span class="comment">//以前6个点为顶点绘制两个三角形</span></span><br><span class="line">GLES20.glDrawArrays(GLES20.GL_TRIANGLES,<span class="number">0</span>,<span class="number">6</span>)</span><br><span class="line">GLES20.glUniform4f(uColorLocation,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1f</span>)</span><br><span class="line"><span class="comment">//以第六、七个点画一条直线</span></span><br><span class="line">GLES20.glDrawArrays(GLES20.GL_LINES,<span class="number">6</span>,<span class="number">2</span>)</span><br><span class="line">GLES20.glUniform4f(uColorLocation,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1f</span>)</span><br><span class="line"><span class="comment">//画一个点</span></span><br><span class="line">GLES20.glDrawArrays(GL_POINTS,<span class="number">8</span>,<span class="number">1</span>)</span><br><span class="line">GLES20.glUniform4f(uColorLocation,<span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1f</span>,<span class="number">1f</span>)</span><br><span class="line"><span class="comment">//画一个点</span></span><br><span class="line">GLES20.glDrawArrays(GL_POINTS,<span class="number">9</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>　　运行项目应该会得到下面这个效果<br>　　<img src="/2019/05/21/opengles-2/./image3.jpg" width="288" height="512"><br>　　我们发现两个点没有绘制出来，因为我们没有指定点的大小，我们需要在顶点着色器中指定点的大小，在simple_vertex_shader.glsl中的main方法加一句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gl_PointSize = 10.0f;</span><br></pre></td></tr></table></figure>
+<p>　　再次运行项目会看到如下效果，两个点也绘制出来了</p>
+<p>　　<img src="/2019/05/21/opengles-2/./image4.jpg" width="288" height="512"></p>
+<p>　　但是当手机切换为横屏时，会出现下面的效果<br>　　<img src="/2019/05/21/opengles-2/./image5.jpg" width="512" height="288"><br>　　下一篇我们将通过矩阵变换来解决这个问题</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -198,7 +261,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -211,70 +274,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xingzhe0315.github.io/2019/05/21/opengles-2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/opengles_1/" class="archive-article-date">
-  	<time datetime="2019-05-19T08:22:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/19/opengles_1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/opengles_1/">Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -297,8 +394,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

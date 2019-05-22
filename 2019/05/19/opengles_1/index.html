@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://xingzhe0315.github.io">
-  <title>Android OpenGLES入门（一） | Hexo</title>
+  <title>Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近在学习Android上OpenGL相关内容，参考的《OpenGL ES2 for Android》这本书，把学习的过程写下来作为笔记，加深印象　　首先要了解的就是GLSurfaceView,根据类的注释我们得知，GLSurfaceView继承于SurfaceView，用一个Surface来展示OpenGL的渲染，一个GLSurfaceView可以提供以下几种功能：　　1、管理一个Surfa">
 <meta name="keywords" content="Android,OpenGLES">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android OpenGLES入门（一）">
+<meta property="og:title" content="Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer">
 <meta property="og:url" content="https://xingzhe0315.github.io/2019/05/19/opengles_1/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="最近在学习Android上OpenGL相关内容，参考的《OpenGL ES2 for Android》这本书，把学习的过程写下来作为笔记，加深印象　　首先要了解的就是GLSurfaceView,根据类的注释我们得知，GLSurfaceView继承于SurfaceView，用一个Surface来展示OpenGL的渲染，一个GLSurfaceView可以提供以下几种功能：　　1、管理一个Surfa">
 <meta property="og:locale" content="CH">
 <meta property="og:image" content="https://xingzhe0315.github.io/2019/05/19/opengles_1/clear_red.jpg">
-<meta property="og:updated_time" content="2019-05-19T13:21:35.696Z">
+<meta property="og:updated_time" content="2019-05-22T15:38:55.788Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android OpenGLES入门（一）">
+<meta name="twitter:title" content="Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer">
 <meta name="twitter:description" content="最近在学习Android上OpenGL相关内容，参考的《OpenGL ES2 for Android》这本书，把学习的过程写下来作为笔记，加深印象　　首先要了解的就是GLSurfaceView,根据类的注释我们得知，GLSurfaceView继承于SurfaceView，用一个Surface来展示OpenGL的渲染，一个GLSurfaceView可以提供以下几种功能：　　1、管理一个Surfa">
 <meta name="twitter:image" content="https://xingzhe0315.github.io/2019/05/19/opengles_1/clear_red.jpg">
   
@@ -164,7 +164,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android OpenGLES入门（一）
+      Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer
     </h1>
   
 
@@ -182,7 +182,7 @@
 <p>　　代码中的注释应该一目了然，在onResume和onPause中我们分别调用了glSurfaceView.onResume()和glSurfaceView.onPause()来唤醒跟暂停渲染线程，因为调用这两个方法的前提是GLSurfaceView设置了渲染器，所以这里用一个boolean值来存储是否设置渲染器</p>
 <h3 id="MyGLRender的实现"><a href="#MyGLRender的实现" class="headerlink" title="MyGLRender的实现"></a>MyGLRender的实现</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyGLRender</span></span>(<span class="keyword">private</span> <span class="keyword">var</span> context: Context) : GLSurfaceView.Renderer &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onDrawFrame</span><span class="params">(gl: <span class="type">GL10</span>?)</span></span> &#123;</span><br><span class="line">        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onSurfaceChanged</span><span class="params">(gl: <span class="type">GL10</span>?, width: <span class="type">Int</span>, height: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        GLES20.glViewport(<span class="number">1</span>, <span class="number">1</span>, width, height)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onSurfaceCreated</span><span class="params">(gl: <span class="type">GL10</span>?, config: <span class="type">EGLConfig</span>?)</span></span> &#123;</span><br><span class="line">        GLES20.glClearColor(<span class="number">1f</span>, <span class="number">0f</span>, <span class="number">0f</span>, <span class="number">1f</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>下面介绍一下Renderer的三个重写方法：<br>　　onSurfaceCreated()方法是在surface创建或者重新创建时调用，并且当设备被唤醒或者用户从其他Activity返回时也可能会被调用，可以在这个方法中做一些初始化操作，我们这里是调用GLES20.glClearColor(1f, 0f, 0f, 1f)把清空屏幕用的颜色设置为红色,方法的参数对应rgba，范围为[0,1]；<br>　　onSurfaceChanged()方法当surface创建或尺寸变化时调用，如横竖屏切换，在这里我们调用GLES20.glViewport(1, 1, width, height)来设置视口的大小，告诉OpenGL可以渲染的surface的大小；<br>　　onDrawFrame()方法在绘制一帧时会被GLSurfaceView调用，在这个方法中我们一定要绘制一些东西，即使只是清空屏幕；因为在这个方法返回后，渲染缓冲区会被交换并显示在屏幕上，如果什么都没画，可能会看到闪烁效果<br>　　我们发现这三个方法都有一个GL10的参数，他是GLES10的API，因为我们时针对GLES20的，因此直接用GLES20的静态方法</p>
-<p>　　上述代码运行，如果没有问题的话应该会看到如下界面：<br><img src="/2019/05/19/opengles_1/./clear_red.jpg" width="288" height="512" align="center"></p>
+<p>　　上述代码运行，如果没有问题的话应该会看到如下界面：<br><img src="/2019/05/19/opengles_1/./clear_red.jpg" width="288" height="512"></p>
 <p>　　第一篇就先写到这里，下一篇开始将会写一下绘制具体的图形</p>
 
       
@@ -301,6 +301,20 @@
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2019/05/21/opengles-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android OpenGL ES2.0入门（二）：着色器(Shader)
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
