@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://xingzhe0315.github.io">
   <title>Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix） | 小武的进阶之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否">
+  <meta name="description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。">
 <meta name="keywords" content="Android,OpenGLES">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）">
 <meta property="og:url" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/index.html">
 <meta property="og:site_name" content="小武的进阶之路">
-<meta property="og:description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否">
+<meta property="og:description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。">
 <meta property="og:locale" content="CH">
 <meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image1.png">
 <meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image2.png">
@@ -28,10 +28,10 @@
 <meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image10.jpg">
 <meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image12.jpg">
 <meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image11.jpg">
-<meta property="og:updated_time" content="2019-05-23T15:24:44.598Z">
+<meta property="og:updated_time" content="2019-05-23T15:25:41.524Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）">
-<meta name="twitter:description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否">
+<meta name="twitter:description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。">
 <meta name="twitter:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image1.png">
   
     <link rel="alternative" href="/atom.xml" title="小武的进阶之路" type="application/atom+xml">
@@ -188,7 +188,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>　　上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。<br><img src="/2019/05/23/opengles-3/./image1.png" width="925" height="525"><br>　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否可以通过给x坐标乘以某一个小于1的值来达到不变形的效果，可以的话这个值应该是多少？<br>　　竖屏状态下，高比宽大，但是OpenGL还是会把它当做1，而实际上如果宽是1的画，高应该是height/width，所以如果把点的y坐标除以（height/width），那x的0.5跟y的0.5应该就一样了，反之应该把x的坐标除以（width/height）。那么应该通过一个什么样的方式来对点的坐标进行这样一个变换呢？下面我们通过矩阵的运算来说明，假设点的坐标为（x,y,x,w）,我们知道OpenGL的点都是四位坐标。如果我们用一个单位矩阵来乘以这个点的坐标：</p>
+        <p>　　上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。<br><img src="/2019/05/23/opengles-3/./image1.png" width="925" height="525"><br><a id="more"></a><br>　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否可以通过给x坐标乘以某一个小于1的值来达到不变形的效果，可以的话这个值应该是多少？<br>　　竖屏状态下，高比宽大，但是OpenGL还是会把它当做1，而实际上如果宽是1的画，高应该是height/width，所以如果把点的y坐标除以（height/width），那x的0.5跟y的0.5应该就一样了，反之应该把x的坐标除以（width/height）。那么应该通过一个什么样的方式来对点的坐标进行这样一个变换呢？下面我们通过矩阵的运算来说明，假设点的坐标为（x,y,x,w）,我们知道OpenGL的点都是四位坐标。如果我们用一个单位矩阵来乘以这个点的坐标：</p>
 <p><img src="/2019/05/23/opengles-3/./image2.png" width="468" height="87"></p>
 <p>　　单位矩阵与一个点的坐标相乘后结果还是该点的坐标，并没有变化，但是我们不难发现，矩阵的m[1,1]决定了相乘以后x的值，m[2,2]，决定了相乘以后的y值，m[3,3]决定相乘以后的z值，m[4,4]决定了相乘以后的w值，因此只要我们该表这几个值就可以对坐标进行变换，所以针对上面那种情况，假设屏幕长边与短边的比值为scale，那么竖屏状态下我们需要将y除以scale，那我们只需要将原本的单位矩阵变为如下矩阵</p>
 <p><img src="/2019/05/23/opengles-3/./image3.png" width="578" height="87"></p>
