@@ -6,18 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://xingzhe0315.github.io">
-  <title>Tag: Android | 小武的进阶之路</title>
+  <title>Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix） | 小武的进阶之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录成长路上的点点滴滴">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小武的进阶之路">
-<meta property="og:url" content="https://xingzhe0315.github.io/tags/Android/index.html">
+  <meta name="description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否">
+<meta name="keywords" content="Android,OpenGLES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）">
+<meta property="og:url" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/index.html">
 <meta property="og:site_name" content="小武的进阶之路">
-<meta property="og:description" content="记录成长路上的点点滴滴">
+<meta property="og:description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否">
 <meta property="og:locale" content="CH">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image1.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image2.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image3.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image4.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image5.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image6.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image7.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image8.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image9.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image10.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image12.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image11.jpg">
+<meta property="og:updated_time" content="2019-05-23T15:24:44.598Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小武的进阶之路">
-<meta name="twitter:description" content="记录成长路上的点点滴滴">
+<meta name="twitter:title" content="Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）">
+<meta name="twitter:description" content="上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否">
+<meta name="twitter:image" content="https://xingzhe0315.github.io/2019/05/23/opengles-3/image1.png">
   
     <link rel="alternative" href="/atom.xml" title="小武的进阶之路" type="application/atom+xml">
   
@@ -153,36 +168,88 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-opengles-3" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/23/opengles-3/" class="archive-article-date">
+
+        
+        <a href="/2019/05/23/opengles-3/" class="archive-article-date">
   	<time datetime="2019-05-23T12:35:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-23</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/23/opengles-3/">Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　上一篇把桌子画出来了，但是对于横屏状态还没有做处理，这一节我们通过矩阵变换的方法来解决这一问题。这一篇的代码都是在上一篇的基础上进行完善的。<br><img src="/2019/05/23/opengles-3/./image1.png" width="925" height="525"><br>　　上面是手机横竖屏状态下的坐标示意图，在OpenGL里面无论宽高具体是多少，我们要渲染的物体都要映射到x,y,z轴的[-1,1]范围内，这个范围内的坐标被成为归一化设备坐标，而正常情况下我们的设备通常不是正方形的，所以才会出现上一篇那种情况。那么我们是否可以通过给x坐标乘以某一个小于1的值来达到不变形的效果，可以的话这个值应该是多少？<br>　　竖屏状态下，高比宽大，但是OpenGL还是会把它当做1，而实际上如果宽是1的画，高应该是height/width，所以如果把点的y坐标除以（height/width），那x的0.5跟y的0.5应该就一样了，反之应该把x的坐标除以（width/height）。那么应该通过一个什么样的方式来对点的坐标进行这样一个变换呢？下面我们通过矩阵的运算来说明，假设点的坐标为（x,y,x,w）,我们知道OpenGL的点都是四位坐标。如果我们用一个单位矩阵来乘以这个点的坐标：</p>
+<p><img src="/2019/05/23/opengles-3/./image2.png" width="468" height="87"></p>
+<p>　　单位矩阵与一个点的坐标相乘后结果还是该点的坐标，并没有变化，但是我们不难发现，矩阵的m[1,1]决定了相乘以后x的值，m[2,2]，决定了相乘以后的y值，m[3,3]决定相乘以后的z值，m[4,4]决定了相乘以后的w值，因此只要我们该表这几个值就可以对坐标进行变换，所以针对上面那种情况，假设屏幕长边与短边的比值为scale，那么竖屏状态下我们需要将y除以scale，那我们只需要将原本的单位矩阵变为如下矩阵</p>
+<p><img src="/2019/05/23/opengles-3/./image3.png" width="578" height="87"></p>
+<p>而横屏状态下</p>
+<p><img src="/2019/05/23/opengles-3/./image4.png" width="578" height="87"></p>
+<p>下面我们看最后一列的前三个元素对坐标的影响</p>
+<p><img src="/2019/05/23/opengles-3/./image5.png" width="669" height="87"></p>
+<p>　　而通常一个位置的w分量均为1，如果我们没有指定w分量，OpenGL会默认把它设为1，所以transX,transY,transZ影响的是x，y，z方向上的平移量。我们通过这个方式来实现坐标的变换，它有个专有名词，叫做正交投影，我们使用Android 的Matrix类的orthoM方法来生成正交投影矩阵，它在android.opengl包内，我们来看一下方法签名<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">orthoM</span><span class="params">(<span class="keyword">float</span>[] m, <span class="keyword">int</span> mOffset,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">float</span> left, <span class="keyword">float</span> right, <span class="keyword">float</span> bottom, <span class="keyword">float</span> top,</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">float</span> near, <span class="keyword">float</span> far)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>m:我们要操作的矩阵，它以一个长度为16的float数组来表示一个4x4的矩阵<br>mOffset:结果矩阵的偏移量，我们一般设为0<br>left:x轴的最小范围<br>right:x轴的最大范围<br>bottom:y轴的最小范围<br>top:y轴的最大范围<br>near:z轴的最小范围<br>far:z轴的最大范围</p>
+<p>当我们调用这个方法后，它会生成如下正交矩阵：</p>
+<p><img src="/2019/05/23/opengles-3/./image6.png" width="346" height="98"></p>
+<p>　　在OpenGL归一化坐标里，right,top,far均为1，left,bottom,near均为-1，所以其正交矩阵为单位矩阵，但是z为-1，这是左手坐标系跟右手坐标系的区别，它只影响z的方向，不影响x,y的值,我们暂时不讨论。<br>　　在竖屏状态下，设scale = height/width，假设y轴的最小范围为-scale,y轴最大范围为scale,其余的不变，我们调用这个方法后得到的正交矩阵为</p>
+<p><img src="/2019/05/23/opengles-3/./image7.png" width="370" height="86"></p>
+<p>　　横屏状态下，设scale = width/height，假设x轴的最小范围为-scale,x轴最大范围为scale,其余的不变，我们调用这个方法后得到的正交矩阵为</p>
+<p><img src="/2019/05/23/opengles-3/./image8.png" width="370" height="89"></p>
+<p>　　这两种结果刚好与我们前面推导的一致，也就是我们可以通过这个方法来得出我们需要的正交投影矩阵，而横竖屏切换时GLSurface的尺寸发生了变化，会调用Renderer的onSurfaceChanged方法，我们只需要在这个方法内判断宽高比，生成投影矩阵。<br>　　在MyGLRender类中定义成员变量projectionMatrix：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> projectionMatrix = FloatArray(<span class="number">16</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　在onSurfaceChanged中调用Matrix.orthoM方法来改变projectionMatrix：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onSurfaceChanged</span><span class="params">(gl: <span class="type">GL10</span>?, width: <span class="type">Int</span>, height: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    GLES20.glViewport(<span class="number">0</span>, <span class="number">0</span>, width, height)</span><br><span class="line">    <span class="keyword">val</span> scale = <span class="keyword">if</span> (width &gt; height) width.toFloat()/height.toFloat() <span class="keyword">else</span> height.toFloat()/width.toFloat()</span><br><span class="line">    <span class="keyword">if</span> (width &gt; height)&#123;</span><br><span class="line">        Matrix.orthoM(projectionMatrix,<span class="number">0</span>,-scale,scale,-<span class="number">1f</span>,<span class="number">1f</span>,-<span class="number">1f</span>,<span class="number">1f</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        Matrix.orthoM(projectionMatrix,<span class="number">0</span>,-<span class="number">1f</span>,<span class="number">1f</span>,-scale,scale,-<span class="number">1f</span>,<span class="number">1f</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　我们的到投影矩阵，如何使用呢，我们知道我们需要将矩阵与点的初始位置相乘来得到新的位置交给着色器来渲染，那么我们可以在顶点着色器中定义一个矩阵的属性，将projectionMatrix传过去，在给gl_Pisition赋值时，将矩阵与传递过去的a_Position相乘以后赋值给gl_Position。<br>　　那么simple_vertex_shader.glsl变为：<br><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">attribute</span> <span class="type">vec4</span> a_Position;</span><br><span class="line"><span class="keyword">uniform</span> <span class="type">mat4</span> u_Matrix;</span><br><span class="line"><span class="type">void</span> main()&#123;</span><br><span class="line">    <span class="built_in">gl_Position</span> = u_Matrix*a_Position;</span><br><span class="line">    <span class="built_in">gl_PointSize</span> = <span class="number">10.0</span>f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　我们添加了一个uniform定义“u_Matrix”，并把它定义为一个mat4类型，意思是这个uniform代表一个4x4的矩阵，更新赋值那一行，切记相乘的顺序不要写反，矩阵的乘法要求前面矩阵的列数等于后面矩阵的行数，否则无法进行运算。<br>　　接下来就要给u_Matrix进行传值，我们在MyGLRender定义一个常量<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> U_MATRIX:String = <span class="string">"u_Matrix"</span></span><br></pre></td></tr></table></figure></p>
+<p>和一个变量<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> uMatrixLocation:<span class="built_in">Int</span> = <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>在onSurfaceCreated中获取该位置编号：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uMatrixLocation = GLES20.glGetUniformLocation(programId, U_MATRIX)</span><br></pre></td></tr></table></figure></p>
+<p>在onDrawFrame中将projectionMatrix传递给OpenGL，在glClear方法后面加上下面一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLES20.glUniformMatrix4fv(uMatrixLocation,1,false,projectionMatrix,0)</span><br></pre></td></tr></table></figure></p>
+<p>运行项目，我们看到如下结果</p>
+<p><img src="/2019/05/23/opengles-3/./image9.jpg" width="288" height="512"></p>
+<p>手机切换为横屏时</p>
+<p><img src="/2019/05/23/opengles-3/./image10.jpg" width="512" height="288"></p>
+<p>我们发现图形没有被拉伸，但是变成正方形了，因为坐标变换后0.5跟0.5确实是相等的，我们把y坐标变成0.8<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> VERTEX_DATA = floatArrayOf(</span><br><span class="line">    <span class="comment">//第一个三角形</span></span><br><span class="line">    -<span class="number">0.5f</span>, -<span class="number">0.8f</span>,</span><br><span class="line">    <span class="number">0.5f</span>, <span class="number">0.8f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>, <span class="number">0.8f</span>,</span><br><span class="line">    <span class="comment">//第二个三角形</span></span><br><span class="line">    -<span class="number">0.5f</span>, -<span class="number">0.8f</span>,</span><br><span class="line">    <span class="number">0.5f</span>, -<span class="number">0.8f</span>,</span><br><span class="line">    <span class="number">0.5f</span>, <span class="number">0.8f</span>,</span><br><span class="line">    <span class="comment">//中间那条线</span></span><br><span class="line">    -<span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">    <span class="number">0.5f</span>, <span class="number">0f</span>,</span><br><span class="line">    <span class="comment">//两个点</span></span><br><span class="line">    <span class="number">0f</span>, -<span class="number">0.4f</span>,</span><br><span class="line">    <span class="number">0f</span>, <span class="number">0.4f</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>再次运行<br>竖屏</p>
+<p><img src="/2019/05/23/opengles-3/./image12.jpg" width="288" height="512"></p>
+<p>横屏</p>
+<p><img src="/2019/05/23/opengles-3/./image11.jpg" width="512" height="288"></p>
+<p>得到我们想要的结果，我们现在都是单一的着色，下一篇我们学习一下渐变色，也就是平滑着色</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -198,7 +265,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -211,123 +278,104 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xingzhe0315.github.io/2019/05/23/opengles-3/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/opengles-2/" class="archive-article-date">
-  	<time datetime="2019-05-21T13:44:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/21/opengles-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android OpenGL ES2.0入门（二）：着色器(Shader)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/opengles-2/">Android OpenGL ES2.0入门（二）：着色器(Shader)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/opengles_1/" class="archive-article-date">
-  	<time datetime="2019-05-19T08:22:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/opengles_1/">Android OpenGL ES2.0入门（一）GLSurfaceView,Renderer</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -350,9 +398,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
