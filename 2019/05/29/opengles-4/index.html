@@ -6,18 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://xingzhe0315.github.io">
-  <title>Tag: OpenGLES | 小武的进阶之路</title>
+  <title>Android OpenGL ES2.0入门（四）：平滑着色（varying） | 小武的进阶之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录成长路上的点点滴滴">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小武的进阶之路">
-<meta property="og:url" content="https://xingzhe0315.github.io/tags/OpenGLES/index.html">
+  <meta name="description" content="前面几篇我们画的都是纯白色的桌子，但现实生活中的物体有各种颜色，这一篇我们会学习如何把每个顶点上的颜色定义为一个顶点属性，而不是对整个对象都使用单一的颜色，还会学习如何在构成物体的顶点之间平滑的混合这些颜色 三角形扇如果桌子的正上方有一盏灯，那么桌子的正中间肯定是最亮的，而其边缘处则会显得暗一点，因此我们就需要在桌子的中间加入一个点">
+<meta name="keywords" content="Android,OpenGLES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android OpenGL ES2.0入门（四）：平滑着色（varying）">
+<meta property="og:url" content="https://xingzhe0315.github.io/2019/05/29/opengles-4/index.html">
 <meta property="og:site_name" content="小武的进阶之路">
-<meta property="og:description" content="记录成长路上的点点滴滴">
+<meta property="og:description" content="前面几篇我们画的都是纯白色的桌子，但现实生活中的物体有各种颜色，这一篇我们会学习如何把每个顶点上的颜色定义为一个顶点属性，而不是对整个对象都使用单一的颜色，还会学习如何在构成物体的顶点之间平滑的混合这些颜色 三角形扇如果桌子的正上方有一盏灯，那么桌子的正中间肯定是最亮的，而其边缘处则会显得暗一点，因此我们就需要在桌子的中间加入一个点">
 <meta property="og:locale" content="CH">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/29/opengles-4/image1.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/29/opengles-4/image2.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/05/29/opengles-4/image3.jpg">
+<meta property="og:updated_time" content="2019-05-29T12:15:07.730Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小武的进阶之路">
-<meta name="twitter:description" content="记录成长路上的点点滴滴">
+<meta name="twitter:title" content="Android OpenGL ES2.0入门（四）：平滑着色（varying）">
+<meta name="twitter:description" content="前面几篇我们画的都是纯白色的桌子，但现实生活中的物体有各种颜色，这一篇我们会学习如何把每个顶点上的颜色定义为一个顶点属性，而不是对整个对象都使用单一的颜色，还会学习如何在构成物体的顶点之间平滑的混合这些颜色 三角形扇如果桌子的正上方有一盏灯，那么桌子的正中间肯定是最亮的，而其边缘处则会显得暗一点，因此我们就需要在桌子的中间加入一个点">
+<meta name="twitter:image" content="https://xingzhe0315.github.io/2019/05/29/opengles-4/image1.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -135,36 +141,81 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-opengles-4" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Android OpenGL ES2.0入门（四）：平滑着色（varying）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/29/opengles-4/" class="archive-article-date">
+
+        
+        <a href="/2019/05/29/opengles-4/" class="archive-article-date">
   	<time datetime="2019-05-29T10:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/29/opengles-4/">Android OpenGL ES2.0入门（四）：平滑着色（varying）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　前面几篇我们画的都是纯白色的桌子，但现实生活中的物体有各种颜色，这一篇我们会学习如何把每个顶点上的颜色定义为一个顶点属性，而不是对整个对象都使用单一的颜色，还会学习如何在构成物体的顶点之间平滑的混合这些颜色</p>
+<h3 id="三角形扇"><a href="#三角形扇" class="headerlink" title="三角形扇"></a>三角形扇</h3><p>如果桌子的正上方有一盏灯，那么桌子的正中间肯定是最亮的，而其边缘处则会显得暗一点，因此我们就需要在桌子的中间加入一个点<br><a id="more"></a><br><img src="/2019/05/29/opengles-4/./image1.png" width="377" height="481"><br>这样的话桌子就被分成四个三角形了，我们把前面的MyGLRender类拷贝一份命名为MyGLRender2，将VERTEX_DATA里面的三角形相关的顶点数据修改如下：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">-<span class="number">0.5f</span>,-<span class="number">0.8f</span>,</span><br><span class="line"><span class="number">0.5f</span>,-<span class="number">0.8f</span>,</span><br><span class="line"><span class="number">0.5f</span>,<span class="number">0.8f</span>,</span><br><span class="line">-<span class="number">0.5f</span>,<span class="number">0.8f</span>,</span><br><span class="line">-<span class="number">0.5f</span>,-<span class="number">0.8f</span></span><br></pre></td></tr></table></figure></p>
+<p>我们只定义了6个点，因为四个三角形有的点是重复的，所以一个顶点会用于多个三角形，如下图所示：<br><img src="/2019/05/29/opengles-4/./image2.png" width="705" height="480"><br>　　一个三角形扇以中心点作为起始点，使用相邻的两个顶点创建一个三角形，接下来每个顶点都会创建一个三角形，围绕其实的中心点按扇形展开，为了使扇形闭合，我们只需要在最后重复第二个点。<br>　　因为绘制方式变了，所以我们需要更新绘制方法，使得OpenGL知道我们将要绘制的是一个三角形扇，在onDrawFrame里，将第一个绘制三角形的 GLES20.glDrawArrays(GLES20.GL_TRIANGLES,0,6)方法改为<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN,<span class="number">0</span>,<span class="number">6</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　其他的不变，将MainActivity中的glSurfaceView.setRenderer(MyGLRender(this))改为glSurfaceView.setRenderer(MyGLRender2(this))，将我们新创建的MyGLRender2设置给GLSurfaceView，运行项目，应该与前面的结果一致。</p>
+<h3 id="给每个顶点添加颜色属性"><a href="#给每个顶点添加颜色属性" class="headerlink" title="给每个顶点添加颜色属性"></a>给每个顶点添加颜色属性</h3><p>　　我们前面每个顶点里面只有位置作为顶点的属性，那么接下来我们要在每个顶点添加颜色作为第二个属性，添加后的数据如下：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> VERTEX_DATA = floatArrayOf(</span><br><span class="line">    <span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1f</span>,<span class="number">1f</span>,<span class="number">1f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>,-<span class="number">0.8f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    <span class="number">0.5f</span>,-<span class="number">0.8f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    <span class="number">0.5f</span>,<span class="number">0.8f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>,<span class="number">0.8f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>,-<span class="number">0.8f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    <span class="comment">//中间那条线</span></span><br><span class="line">    -<span class="number">0.5f</span>, <span class="number">0f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">    <span class="number">0.5f</span>, <span class="number">0f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">    <span class="comment">//两个点</span></span><br><span class="line">    <span class="number">0f</span>, -<span class="number">0.4f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">    <span class="number">0f</span>, <span class="number">0.4f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">1f</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>　　每个顶点添加三个分量作为颜色值，这三个分量分别代表红色（R），绿色（G），蓝色（B），他们一起构成对应那个顶点的颜色。<br>　　首先，我们将simple_vertex_shader.glsl更新如下：<br><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">attribute</span> <span class="type">vec4</span> a_Position;</span><br><span class="line"><span class="keyword">attribute</span> <span class="type">vec4</span> a_Color;</span><br><span class="line"></span><br><span class="line"><span class="keyword">varying</span> <span class="type">vec4</span> v_Color;</span><br><span class="line"></span><br><span class="line"><span class="keyword">uniform</span> <span class="type">mat4</span> u_Matrix;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> main()&#123;</span><br><span class="line">    <span class="built_in">gl_Position</span> = u_Matrix * a_Position;</span><br><span class="line">    v_Color = a_Color;</span><br><span class="line">    <span class="built_in">gl_PointSize</span> = <span class="number">10.0</span>f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　我们加入了一个属性a_Color跟一个varying类型的变量v_Color。要实现三角形的颜色在顶点之间渐变，就需要这个varying类型的变量来实现。varying是一个特殊的变量类型，它把给它的那些值进行混合，并把这些混合后的值发送给片段着色器，那么我们把varying也加入片段着色器，将simple_fragment_shader.glsl更新如下：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">precision mediump float;</span><br><span class="line"></span><br><span class="line">varying vec4 v_Color;</span><br><span class="line"></span><br><span class="line">void main()&#123;</span><br><span class="line">    gl_FragColor = v_Color;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>　　我们用varying类型的变量v_Color替换了原来uniform类型的变量u_Color。如果那个片段是一条直线，那么OpenGL就用构成直线的两个顶点计算混合后的颜色；如果那个片段是一个三角形，那么OpenGL就用构成三角形的三个顶点计算混合后的颜色。</p>
+<h3 id="使用新的颜色属性渲染"><a href="#使用新的颜色属性渲染" class="headerlink" title="使用新的颜色属性渲染"></a>使用新的颜色属性渲染</h3><p>　　在MyGLRender2中加入如下常量和变量<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> A_COLOR = <span class="string">"a_Color"</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> COLOR_COMPONENT_COUNT = <span class="number">3</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTE_PER_FLOAT</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> aColorLocation:<span class="built_in">Int</span> = <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<p>　　现在可以去掉与u_Color相关的那些常量和变量。COLOR_COMPONENT_COUNT代表顶点中颜色分量的个数，我们这里是三个。我们还添加了一个名为STRIDE的常量，因为我们现在一个数据数组里面既有位置属性又有颜色属性，OpenGL不能假定下一个位置是紧跟着前一个位置的。一旦OpenGL读入了一个顶点的位置，如果它想读入下一个顶点的位置，它必须跳过当前顶点的颜色数据，我们需要用跨距（stride）来告诉OpenGL每个位置之间有多少个字节，这样它就知道需要跳过多少了。</p>
+<p>　　接下来要更新onSurfaceCreated方法，首先需要获取新属性的位置，并去掉与u_Color相关的代码，加入以下代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aColorLocation = GLES20.glGetAttribLocation(programId, A_COLOR)</span><br></pre></td></tr></table></figure></p>
+<p>　　同时需要更新GLES20.glVertexAttribPointer()方法，加入跨距（stride）<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GLES20.glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT,GLES20.GL_FLOAT,<span class="literal">false</span>, STRIDE,vertexData)</span><br></pre></td></tr></table></figure></p>
+<p>　　然后，告诉OpenGL把顶点数据与着色器中的a_Color关联起来，在onSurfaceCreated尾部加入以下代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将vertexData的位置设置为POSITION_COMPONENT_COUNT，当OpenGL开始读入颜色属性时，我们要保证它从第一个颜色属性开始读，而不是从第一个位置属性开始，因此需要跳过位置属性。</span></span><br><span class="line">vertexData.position(POSITION_COMPONENT_COUNT)</span><br><span class="line">GLES20.glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT,GLES20.GL_FLOAT,<span class="literal">false</span>, STRIDE,vertexData)</span><br><span class="line">GLES20.glEnableVertexAttribArray(aColorLocation)</span><br></pre></td></tr></table></figure></p>
+<p>　　更新onDrawFrame，将所有的GLES20.glUniform4f去掉，因为我们已经把顶点数据与a_Color关联起来了，因此我们不再需要它了，只需要直接GLES20.glDrawArrays即可，OpenGL会自动从顶点数据里面读取颜色属性。<br>运行项目，会看到以下结果</p>
+<p><img src="/2019/05/29/opengles-4/./image3.jpg" width="288" height="512"></p>
+<p>　　的确看到了中心比边缘更加明亮，但是也是三角形的形状变得突出了。之所以会这样，是因为线性插值的方向是顺着三角形的，因此三角形内部看起来是平滑的，但是放在整个矩形中就显得比较突兀。为了减少或消除这种效果，我们可以使用更多的三角形或者使用一个光照算法并以每个片段为基础计算颜色，这个以后会学习。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="./assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="./assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -180,7 +231,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -193,176 +244,117 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xingzhe0315.github.io/2019/05/29/opengles-4/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/23/opengles-3/" class="archive-article-date">
-  	<time datetime="2019-05-23T12:35:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-23</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/23/opengles-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/23/opengles-3/">Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#三角形扇"><span class="toc-number">1.</span> <span class="toc-text">三角形扇</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#给每个顶点添加颜色属性"><span class="toc-number">2.</span> <span class="toc-text">给每个顶点添加颜色属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用新的颜色属性渲染"><span class="toc-number">3.</span> <span class="toc-text">使用新的颜色属性渲染</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/opengles-2/" class="archive-article-date">
-  	<time datetime="2019-05-21T13:44:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/opengles-2/">Android OpenGL ES2.0入门（二）：着色器(Shader)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/opengles_1/" class="archive-article-date">
-  	<time datetime="2019-05-19T08:22:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/opengles_1/">Android OpenGL ES2.0入门（一）：GLSurfaceView,Renderer</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -385,9 +377,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
