@@ -6,18 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://xingzhe0315.github.io">
-  <title>Tag: OpenGLES | 小武的进阶之路</title>
+  <title>Android OpenGL ES2.0入门（五）：透视投影矩阵（Perspective Projection Matrix） | 小武的进阶之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="记录成长路上的点点滴滴">
-<meta property="og:type" content="website">
-<meta property="og:title" content="小武的进阶之路">
-<meta property="og:url" content="https://xingzhe0315.github.io/tags/OpenGLES/index.html">
+  <meta name="description" content="前面我们已经画出来一个桌子并且可以自动进行坐标变换，但是在实际生活中，我们几乎不可能从桌子的正上方观察一张桌子，因此我们看到的桌子也不会是我们画的这样方方正正的摆在我们面前，那么我们就需要让他呈现出一个三维的效果，这样才符合我们实际看到的效果。　　实际生活中，我们看同一个物体，当它离得远时看起来就会比较小，当它离我们比较近时看起来就会比较大，同样的，我们就通过这种方法就可以实现一个三维的效果。">
+<meta name="keywords" content="Android,OpenGLES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android OpenGL ES2.0入门（五）：透视投影矩阵（Perspective Projection Matrix）">
+<meta property="og:url" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/index.html">
 <meta property="og:site_name" content="小武的进阶之路">
-<meta property="og:description" content="记录成长路上的点点滴滴">
+<meta property="og:description" content="前面我们已经画出来一个桌子并且可以自动进行坐标变换，但是在实际生活中，我们几乎不可能从桌子的正上方观察一张桌子，因此我们看到的桌子也不会是我们画的这样方方正正的摆在我们面前，那么我们就需要让他呈现出一个三维的效果，这样才符合我们实际看到的效果。　　实际生活中，我们看同一个物体，当它离得远时看起来就会比较小，当它离我们比较近时看起来就会比较大，同样的，我们就通过这种方法就可以实现一个三维的效果。">
 <meta property="og:locale" content="CH">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image1.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image2.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image3.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image4.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image5.jpg">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image6.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image7.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image8.png">
+<meta property="og:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image9.jpg">
+<meta property="og:updated_time" content="2019-06-03T15:35:45.325Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小武的进阶之路">
-<meta name="twitter:description" content="记录成长路上的点点滴滴">
+<meta name="twitter:title" content="Android OpenGL ES2.0入门（五）：透视投影矩阵（Perspective Projection Matrix）">
+<meta name="twitter:description" content="前面我们已经画出来一个桌子并且可以自动进行坐标变换，但是在实际生活中，我们几乎不可能从桌子的正上方观察一张桌子，因此我们看到的桌子也不会是我们画的这样方方正正的摆在我们面前，那么我们就需要让他呈现出一个三维的效果，这样才符合我们实际看到的效果。　　实际生活中，我们看同一个物体，当它离得远时看起来就会比较小，当它离我们比较近时看起来就会比较大，同样的，我们就通过这种方法就可以实现一个三维的效果。">
+<meta name="twitter:image" content="https://xingzhe0315.github.io/2019/06/03/opengles-5/image1.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -135,36 +147,108 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-opengles-5" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Android OpenGL ES2.0入门（五）：透视投影矩阵（Perspective Projection Matrix）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/03/opengles-5/" class="archive-article-date">
+
+        
+        <a href="/2019/06/03/opengles-5/" class="archive-article-date">
   	<time datetime="2019-06-03T12:41:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-03</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/03/opengles-5/">Android OpenGL ES2.0入门（五）：透视投影矩阵（Perspective Projection Matrix）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　前面我们已经画出来一个桌子并且可以自动进行坐标变换，但是在实际生活中，我们几乎不可能从桌子的正上方观察一张桌子，因此我们看到的桌子也不会是我们画的这样方方正正的摆在我们面前，那么我们就需要让他呈现出一个三维的效果，这样才符合我们实际看到的效果。<br>　　实际生活中，我们看同一个物体，当它离得远时看起来就会比较小，当它离我们比较近时看起来就会比较大，同样的，我们就通过这种方法就可以实现一个三维的效果。</p>
+<a id="more"></a>
+<h3 id="从着色器到屏幕的坐标变换"><a href="#从着色器到屏幕的坐标变换" class="headerlink" title="从着色器到屏幕的坐标变换"></a>从着色器到屏幕的坐标变换</h3><p>　　我们现在熟悉了归一化设备坐标，并且知道要让一个顶点显示在屏幕上，它的x、y和z分量的值都需要在[-1.1]范围内。让我们看看下面的流程图，复习一下怎么把一个在顶点着色器上的原始gl_Position坐标变换为最终屏幕坐标。<br><img src="/2019/06/03/opengles-5/./image1.png" width="697" height="61"><br>　　这里涉及两个变换步骤和三个不同坐标空间<br>1、裁剪空间<br>　　当顶点着色器将一个值写到gl_Position中的时候，OpenGL希望它是在裁剪空间（clip space）中的。裁剪空间背后的逻辑非常简单：对于任意一个给定的位置，它的x、y、x分量都需要在那个位置的-w到w之间。比如，默认情况下w为1，那么我们的坐标都需要在-1到1之间，任何在这个范围外的事物在屏幕上都是不可见的。<br>2、透视除法<br>　　在一个顶点位置成为一个归一化设备坐标之前，OpenGL实际上执行了一些额外步骤，它被成为透视出发（perspective division）。透视除法之后，那个位置就在归一化设备坐标中了。不管渲染区域的大小和形状，对于其中的每个可视坐标，其x、y、z分量的取值都位于-1到1的范围内。<br>　　为了在屏幕上创建三维的幻想，OpenGL会把每个gl_Position的x、y和z分量都除以它的w分量。当w分量用来表示距离时，就使得较远处的物体被移动到距离渲染区域中心更近的地方，这个中心点的作用就像一个消失点。OpenGL正式利用这种方法使我们看见一个三维场景。<br>3、视口变换<br>　　在我们看到最后的结果之前，OpenGL需要把归一化设备坐标的x、y分量映射到屏幕上的一块区域内，这块区域是操作系统预留出来用于显示的，被成为视口（viewport）；这些被映射的坐标成为窗口坐标（window coordinate）。除了告诉OpenGL怎么映射外，我们不需要太关心这些坐标。在当前的代码中，我们已经在onSurfaceChanged方法中用glViewport的调用告诉OpenGL了。</p>
+<h3 id="添加W分量创建三维图"><a href="#添加W分量创建三维图" class="headerlink" title="添加W分量创建三维图"></a>添加W分量创建三维图</h3><p>　　我们在之前的代码中更新一下左右顶点的数据：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> VERTEX_DATA = floatArrayOf(</span><br><span class="line">    <span class="number">0f</span>,<span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1.5f</span>,<span class="number">1f</span>,<span class="number">1f</span>,<span class="number">1f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>,-<span class="number">0.8f</span>,<span class="number">0f</span>,<span class="number">1f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    <span class="number">0.5f</span>,-<span class="number">0.8f</span>,<span class="number">0f</span>,<span class="number">1f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    <span class="number">0.5f</span>,<span class="number">0.8f</span>,<span class="number">0f</span>,<span class="number">2f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>,<span class="number">0.8f</span>,<span class="number">0f</span>,<span class="number">2f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    -<span class="number">0.5f</span>,-<span class="number">0.8f</span>,<span class="number">0f</span>,<span class="number">1f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,<span class="number">0.7f</span>,</span><br><span class="line">    <span class="comment">//中间那条线</span></span><br><span class="line">    -<span class="number">0.5f</span>, <span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1.5f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">    <span class="number">0.5f</span>, <span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1.5f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">    <span class="comment">//两个点</span></span><br><span class="line">    <span class="number">0f</span>, -<span class="number">0.4f</span>,<span class="number">0f</span>,<span class="number">1.25f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>,</span><br><span class="line">    <span class="number">0f</span>, <span class="number">0.4f</span>,<span class="number">0f</span>,<span class="number">1.75f</span>,<span class="number">0f</span>,<span class="number">0f</span>,<span class="number">1f</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>　　我们在每个点的坐标上添加了z和w分量，其中接近屏幕底部的点的w设为1，接近屏幕顶部的顶点的w设为2，中间的点的w分量设为1，2之间的小数。我们把所有顶点的z分量都设为0，因为我们不需要z上有任何值就能获得立体效果。OpenGL会自动使用我们指定的w值做透视出发，我们现在的正交投影只是把这些w的值复制过去。<br>　　因为加入了两个分量，因此每个顶点表示位置的分量变为4个了，所以我们把POSITION_COMPONENT_COUNT改为4。<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">val</span> POSITION_COMPONENT_COUNT =<span class="number">4</span></span><br></pre></td></tr></table></figure></p>
+<p>　　继续运行这个项目，它应该看起来和下图类似</p>
+<p><img src="/2019/06/03/opengles-5/./image2.jpg" width="288" height="512"></p>
+<p>　　它们看起来开始更像三维了，我们只是放进了一个自己指定的w值就做到了这些。然而，如果我们想让物体更动态，比如改变桌子的角度或者缩小、放大，怎么办呢？不要使用硬编码指定w的值，我们要用矩阵生成这些值，。我们把刚刚改动的去掉，回复原来的代码，下面我们来学习如何使用透视投影矩阵来自动生成w的值。</p>
+<h3 id="使用透视投影"><a href="#使用透视投影" class="headerlink" title="使用透视投影"></a>使用透视投影</h3><p>　　一旦我们使用了投影矩阵，屏幕内的并行线就会在屏幕上的一个消失点汇聚在一起，当物体越来越远，它们会变得更小。使用立方体，我们可以看到的那个空间区域如下图所示：</p>
+<p><img src="/2019/06/03/opengles-5/./image3.png" width="526" height="226"></p>
+<p>　　这个形状叫做视椎体（frustum），这个观看空间是由一个透视投影矩阵和透视除法创建的。简单来说，视椎体就是一个立方体，它的远端比近端大，从而使其变成一个被截断的金字塔。两端的大小差别越大，我们可观看的范围越宽，能看到的也越多。<br>　　一个视椎体有一个焦点（focal point）。这个焦点可以这样的到，顺着视椎体较大端向较小端延伸出来的那些直线，一直通过较小端只到他们汇聚到一起。当你用透视投影观察一个场景的时候，那个场景看上去就像你的眼睛被放到焦点处。焦点到小端的距离被称为焦距（focal length），它影响视椎体小端和大端的比例，以及其对应的视野。</p>
+<h3 id="定义投影矩阵"><a href="#定义投影矩阵" class="headerlink" title="定义投影矩阵"></a>定义投影矩阵</h3><p>　　为了创造一个三维的视觉，透视投影矩阵需要和透视除法一起发挥作用。投影矩阵不能自己做透视除法，而透视除法需要一些东西才能起作用。<br>　　如果一个物体向屏幕中心点移动，当它离我们越来越远时，它的大小也越来越小，因此投影矩阵最重要的作用就是为w产生正确的值，这样，当OpenGL做透视除法的时候，远处的物体才会看起来比近处的物体小。能实现这些的方法之一就是利用z分量，把它作为物体与焦点的距离并且把这个距离映射到w。这个距离越大，w越大，所得物体越小。</p>
+<h4 id="对宽高比和视野进行调整"><a href="#对宽高比和视野进行调整" class="headerlink" title="对宽高比和视野进行调整"></a>对宽高比和视野进行调整</h4><p>　　让我们看一个更加通用的投影矩阵，它允许我们调整视野以及宽高比。<br><img src="/2019/06/03/opengles-5/./image4.png" width="203" height="97"><br>a：如果我们想象一个相机拍摄的场景，这个变量就代表相机的焦距。焦距是由1/tan(视野/2)计算的到的。这个视野　　必须小于180度。比如一个90度的实视野，它的焦距会被设置为1/tan(90°/2)，也就是1。<br>aspect：屏幕的宽高比，为宽度/高度。<br>f：到远处平面的距离，必须为正值且大于到近处平面的距离。<br>n：近处平面的距离，必须为正值。比如，如果此值被设置为1，那近处平面就位于一个z值为-1处</p>
+<p>　　随着视野变小，焦距变长，可映射到归一化坐标中[-1,1]范围内的x、y值的范围就越小，这回产生使视椎体变窄的效果。</p>
+<h3 id="开始使用投影矩阵"><a href="#开始使用投影矩阵" class="headerlink" title="开始使用投影矩阵"></a>开始使用投影矩阵</h3><p>　　Android中的Matrix类为它准备了两个方法：frustumM()和perspectiveM()。我们使用perspectiveM()方法来创建投影矩阵<br>　　我们先来看它的签名：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">perspectiveM</span><span class="params">(<span class="keyword">float</span>[] m, <span class="keyword">int</span> offset,<span class="keyword">float</span> fovy, <span class="keyword">float</span> aspect, <span class="keyword">float</span> zNear, <span class="keyword">float</span> zFar)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>　　m：保存矩阵数据的一个float数组，长度为16.<br>　　offset：偏移量。<br>　　fovy：y轴上的视野角度。<br>　　aspect：宽高比。<br>　　zNear：近端。<br>　　zFar：远端。</p>
+<p>　　调用这个方法后，就会把矩阵存储到我们传入的float数组m中。<br>　　我们打开MyGLRender2类，将onSurfaceChanged()方法清空，仅保留GLES20.glViewport(0, 0, width, height)调用，加入以下代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Matrix.perspectiveM(projectionMatrix,<span class="number">0</span>,<span class="number">45f</span>,width*<span class="number">1.0f</span>/height,<span class="number">1f</span>,<span class="number">10f</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　这会用一个45度的视野创建一个透视投影矩阵。这个视椎体从z值为-1的位置开始，在z值为-10的位置结束。<br>　　运行这个程序会发现桌子不见了，因为我们没有给桌子指定z的位置，默认情况下它处于z为0的位置。因为这个视椎体是从z值为-1的位置开始的，除非把它移到那个距离内，否则我们无法看到桌子。但是我们最好不要硬编码z的值，在使用投影矩阵进行投影之前，让我们使用一个平移矩阵把桌子移出来。依照惯例，我们把这个矩阵成为模型矩阵（model matrix）。</p>
+<h4 id="利用模型矩阵移动物体"><a href="#利用模型矩阵移动物体" class="headerlink" title="利用模型矩阵移动物体"></a>利用模型矩阵移动物体</h4><p>　　在勒种加入成员变量<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> modelMatrix = FloatArray(<span class="number">16</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　我们要使用这个矩阵把桌子移动到-1.-10的距离内，在onSurfaceChanged()结尾处加入如下代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Matrix.setIdentityM(modelMatrix,<span class="number">0</span>)</span><br><span class="line">Matrix.translateM(modelMatrix,<span class="number">0</span>,<span class="number">0f</span>,<span class="number">0f</span>,-<span class="number">2f</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　首先，将modelMatrix初始化为单位矩阵，再沿着z轴平移-2.当我们把桌子的坐标与这个矩阵相乘的时候，那些坐标最终会沿着z轴负方向移动2个单位。<br>　　那么我们现在面临一个选择：我们需要把模型矩阵作用于每个顶点，因此第一个选项就是给顶点着色器增加一个额外的矩阵。我们把每个顶点与这个模型矩阵相乘，让他们沿着z轴移动-2个单位，然后把每个顶点与投影矩阵相乘，这样OpenGL就可以做透视除法，并把这些顶点变换到归一化设备坐标了。<br>　　还有一种方式：我们可以把模型矩阵与透视矩阵相乘，把得到的结果矩阵传递给顶点着色器，这样顶点着色器还是仅保留了一个矩阵。但是我们要确定相乘的顺序，因为矩阵的乘法不符合交换律。</p>
+<h5 id="选择适当的顺序"><a href="#选择适当的顺序" class="headerlink" title="选择适当的顺序"></a>选择适当的顺序</h5><p>　　为了弄清楚我们应该使用哪种顺序，我们先看一下只使用投影矩阵的数学运算：</p>
+<p>　　vertex_clip = ProjectionMatrix * vertex_eye;</p>
+<p>　　vertex_eye代表场景中的顶点在与投影矩阵相乘之前的位置。一旦我们加入模型矩阵来移动那个桌子，这个数学运算就变为：</p>
+<p>　　vertex_eye = ModelMatrix <em> vertex_model;<br>　　vertex_clip = ProjectionMatrix </em> vertex_eye;</p>
+<p>　　vertex_model代表在被模型矩阵放进场景中之前的初始位置，把这两个表达式合在一起，最后得到如下公式：</p>
+<p>　　vertex_clip = ProjectionMatrix <em> ModelMatrix </em> vertex_model;</p>
+<p>　　为了用一个矩阵替换这两个矩阵，我们可以用投影矩阵乘以模型矩阵。</p>
+<h4 id="更新代码使用一个矩阵"><a href="#更新代码使用一个矩阵" class="headerlink" title="更新代码使用一个矩阵"></a>更新代码使用一个矩阵</h4><p>　　在onSurfaceChanged()结尾处加入如下代码：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> temp = FloatArray(<span class="number">16</span>)</span><br><span class="line">Matrix.multiplyMM(temp,<span class="number">0</span>,projectionMatrix,<span class="number">0</span>,modelMatrix,<span class="number">0</span>)</span><br><span class="line">System.arraycopy(temp,<span class="number">0</span>,projectionMatrix,<span class="number">0</span>,temp.size)</span><br></pre></td></tr></table></figure></p>
+<p>　　矩阵的相乘需要第三个矩阵来存储相乘后的结果，我们定义一个temp来保存结果，然后把temp的数据拷贝到projectionMatrix中，现在projectionMatrix就包含了模型矩阵与投影矩阵的组合效应，运行程序，应该得到如下效果：</p>
+<p><img src="/2019/06/03/opengles-5/./image5.jpg" width="288" height="512"></p>
+<h3 id="增加旋转"><a href="#增加旋转" class="headerlink" title="增加旋转"></a>增加旋转</h3><p>　　既然我们已经有了一个配置好的投影矩阵和一个可以移动桌子的模型矩阵，那么我们需要做的就是旋转这张桌子，以便达到三维的效果，如果使用旋转矩阵，我们只需要一行代码就可以做到，我们先来了解一下旋转。</p>
+<h5 id="旋转的方向"><a href="#旋转的方向" class="headerlink" title="旋转的方向"></a>旋转的方向</h5><p>　　首先我们需要弄清楚我们需要围绕那个轴旋转。我们使用右手坐标规则，大拇指只想旋转轴的正方向，手指弯曲的方向就是旋转的正防线。我们这里是需要沿着x轴向负方向旋转</p>
+<h5 id="旋转矩阵"><a href="#旋转矩阵" class="headerlink" title="旋转矩阵"></a>旋转矩阵</h5><p>　　我们使用一个旋转矩阵去做实际的旋转。旋转矩阵使用正弦和余弦三角函数把旋转角转换成缩放因子。下面是绕x轴旋转所用矩阵的定义：</p>
+<p><img src="/2019/06/03/opengles-5/./image6.png" width="190" height="86"></p>
+<p>　　然后是绕y轴旋转所用的矩阵：</p>
+<p><img src="/2019/06/03/opengles-5/./image7.png" width="190" height="86"></p>
+<p>　　最后还有一个绕z轴旋转所用的矩阵：</p>
+<p><img src="/2019/06/03/opengles-5/./image8.png" width="190" height="86"></p>
+<h5 id="在代码中加入旋转"><a href="#在代码中加入旋转" class="headerlink" title="在代码中加入旋转"></a>在代码中加入旋转</h5><p>　　我们现在准备好把这个旋转加入代码了，回到在onSurfaceChanged()，调整那个平移矩阵，并加入一个旋转矩阵，如下：<br><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Matrix.translateM(modelMatrix,<span class="number">0</span>,<span class="number">0f</span>,<span class="number">0f</span>,-<span class="number">3f</span>)</span><br><span class="line">Matrix.rotateM(modelMatrix,<span class="number">0</span>,-<span class="number">60f</span>,<span class="number">1f</span>,<span class="number">0f</span>,<span class="number">0f</span>)</span><br></pre></td></tr></table></figure></p>
+<p>　　我们需要把桌子放的更远一点，因为一旦把它旋转，它的底部会离我们更近。我们把桌子绕x轴旋转-60度。<br>　　运行程序，应该会实现下面效果：</p>
+<p><img src="/2019/06/03/opengles-5/./image9.jpg" width="288" height="512"></p>
+<p>　　到此，我们的投影变换已经完成了。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -180,7 +264,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -193,229 +277,117 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://xingzhe0315.github.io/2019/06/03/opengles-5/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/29/opengles-4/" class="archive-article-date">
-  	<time datetime="2019-05-29T10:41:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-29</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/29/opengles-4/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android OpenGL ES2.0入门（四）：平滑着色（varying）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/29/opengles-4/">Android OpenGL ES2.0入门（四）：平滑着色（varying）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#从着色器到屏幕的坐标变换"><span class="toc-number">1.</span> <span class="toc-text">从着色器到屏幕的坐标变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加W分量创建三维图"><span class="toc-number">2.</span> <span class="toc-text">添加W分量创建三维图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用透视投影"><span class="toc-number">3.</span> <span class="toc-text">使用透视投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义投影矩阵"><span class="toc-number">4.</span> <span class="toc-text">定义投影矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对宽高比和视野进行调整"><span class="toc-number">4.1.</span> <span class="toc-text">对宽高比和视野进行调整</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开始使用投影矩阵"><span class="toc-number">5.</span> <span class="toc-text">开始使用投影矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#利用模型矩阵移动物体"><span class="toc-number">5.1.</span> <span class="toc-text">利用模型矩阵移动物体</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#选择适当的顺序"><span class="toc-number">5.1.1.</span> <span class="toc-text">选择适当的顺序</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#更新代码使用一个矩阵"><span class="toc-number">5.2.</span> <span class="toc-text">更新代码使用一个矩阵</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加旋转"><span class="toc-number">6.</span> <span class="toc-text">增加旋转</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#旋转的方向"><span class="toc-number">6.0.1.</span> <span class="toc-text">旋转的方向</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#旋转矩阵"><span class="toc-number">6.0.2.</span> <span class="toc-text">旋转矩阵</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#在代码中加入旋转"><span class="toc-number">6.0.3.</span> <span class="toc-text">在代码中加入旋转</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/23/opengles-3/" class="archive-article-date">
-  	<time datetime="2019-05-23T12:35:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/23/opengles-3/">Android OpenGL ES2.0入门（三）：正交投影矩阵（Orthographic Projection Matrix）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+    </div>
+</aside>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/21/opengles-2/" class="archive-article-date">
-  	<time datetime="2019-05-21T13:44:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/21/opengles-2/">Android OpenGL ES2.0入门（二）：着色器(Shader)</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/opengles_1/" class="archive-article-date">
-  	<time datetime="2019-05-19T08:22:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/opengles_1/">Android OpenGL ES2.0入门（一）：GLSurfaceView,Renderer</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">OpenGLES</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/OpenGL//" class="article-tag-list-link color2">OpenGL</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -438,9 +410,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
